@@ -4,7 +4,7 @@
 
 
 
-![DorianYoung](https://media.giphy.com/media/Jr5e0Bs2Ts4JmZxAFo/giphy.gif)
+![DorianYoung]()
 
 https://github.com/DorianYoung
     
@@ -26,8 +26,9 @@ Team generator command-line application. The application prompts the user for in
     
     
 > ## Installation
-    
-npm i Inquirer 
+```sh    
+npm i Inquirer
+```
     
     
 > ## Usage
