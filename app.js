@@ -23,6 +23,7 @@ inquirer
         name: "name"
     },
     {
+        type: 'number',
         message: "Please enter your Identication #",
         name: "id"
     },
@@ -39,22 +40,41 @@ inquirer
 
     {
         message: "Please enter your office number",
-        name: "officeNumber"
+        name: "officeNumber",
+        when: function(answers) {
+            const roleSpecific = answers.role == "Manager";
+            return roleSpecific;
+          }
     },
     {
         message: "Please enter your github username",
-        name: "github"
+        name: "github",
+        when: function(answers) {
+            const roleSpecific = answers.role == "Engineer";
+            return roleSpecific;
+          }
     },
     {
         message: "Please enter the school you attend",
-        name: "school"
+        name: "school",
+        when: function(answers) {
+            const roleSpecific = answers.role == "Itern";
+            return roleSpecific;
+          }
     },
 ])
 
 
-render(employees);
+renderedEmployee = render(employees);
 
 console.log(employees);
+
+(fs.writeFile(outputPath, renderedEmployee , function (err) {
+    if (err) throw err;
+    console.log('Your html file has been generated');
+}));
+
+
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
