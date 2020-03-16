@@ -9,10 +9,11 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 const employees = []
 
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-inquirer
-    .prompt([{
+inquirer.prompt([
+    {
         type: 'list',
         message: 'What is your role?',
         choices: ['Manager', 'Engineer', 'Employee', 'Intern'],
@@ -23,7 +24,6 @@ inquirer
         name: "name"
     },
     {
-        type: 'number',
         message: "Please enter your Identication #",
         name: "id"
     },
@@ -31,13 +31,6 @@ inquirer
         message: "Please enter your email address",
         name: "email"
     },
-    {
-        message: "What is your projects title?",
-        name: "projectTitle"
-    },
-
-
-
     {
         message: "Please enter your office number",
         name: "officeNumber",
@@ -61,18 +54,20 @@ inquirer
             const roleSpecific = answers.role == "Itern";
             return roleSpecific;
           }
-    },
+    }
 ])
+    .then(function render(result) {
+        employees.push(result);
+        const html = render(employees);
+            fs.writeFile(outputPath, html , function (err) {
+                if (err) throw err;
+                console.log(employees);
+                console.log('Your html file has been generated');
+            });  
+    });
+      
 
 
-renderedEmployee = render(employees);
-
-console.log(employees);
-
-(fs.writeFile(outputPath, renderedEmployee , function (err) {
-    if (err) throw err;
-    console.log('Your html file has been generated');
-}));
 
 
 
@@ -94,4 +89,4 @@ console.log(employees);
 // and Intern classes should all extend from a class named Employee; see the directions
 // for further information. Be sure to test out each class and verify it generates an 
 // object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work!```
+// for the provided `render` function to work!
