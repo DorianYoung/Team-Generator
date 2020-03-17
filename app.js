@@ -7,12 +7,12 @@ const Intern = require("./lib/Intern");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
-const employees = []
 
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-inquirer.prompt([
+const collectInputs = async (inputs = []) => {
+    const prompts = [
     {
         type: 'list',
         message: 'What is your role?',
@@ -37,7 +37,7 @@ inquirer.prompt([
         when: function(answers) {
             const roleSpecific = answers.role == "Manager";
             return roleSpecific;
-          }
+        }
     },
     {
         message: "Please enter your github username",
@@ -45,28 +45,68 @@ inquirer.prompt([
         when: function(answers) {
             const roleSpecific = answers.role == "Engineer";
             return roleSpecific;
-          }
+        }
     },
     {
         message: "Please enter the school you attend",
         name: "school",
         when: function(answers) {
-            const roleSpecific = answers.role == "Itern";
+            const roleSpecific = answers.role == "Intern";
             return roleSpecific;
-          }
-    }
-])
-.then(function(result) {
-    employees.push(result);
+        }
+    },
+    {
+        type: 'confirm',
+        name: 'again',
+        message: 'Enter another user? ',
+        default: true
+    }];
+
+const { again, ...answers } = await inquirer.prompt(prompts);
+const newInputs = [...inputs, answers];
+return again ? collectInputs(newInputs) : newInputs;
+};
+  
+const generate = async () => {
+    const employees = await collectInputs();
     console.log(employees);
-    //render(employees);
-    fs.writeFile(outputPath, employees , function (err) {
-            if (err) throw err;
-             console.log('Your html file has been generated');
-        });  
+    const html = render(employees);
+    return html; 
+};
+  
+generate();
+
+
+
+ 
+
+
+
+
+    // .then(function(result) {
+    // console.log(employees);
+    // if (result.role === 'Manager') {
+    //     console.log("Manager");
+    //     new Manager(result.role);
+    //     // employees.push(Manager);
+    //     // console.log(employees);
+
+    // } else if (result.role === 'Intern') {
+    //     console.log("Intern");
+    // } else {
+    //     console.log("Not man or intern")
+    //   }
+
+
+
+    // render(employees);
+    // // fs.writeFile(outputPath, html , function (err) {
+    // //         if (err) throw err;
+    // //          console.log('Your html file has been generated');
+    // //     });  
     
             
-    });
+    // });
     
     
     
