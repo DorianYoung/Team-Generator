@@ -56,15 +56,31 @@ inquirer.prompt([
           }
     }
 ])
-    .then(function render(result) {
-        employees.push(result);
-        const html = render(employees);
-            fs.writeFile(outputPath, html , function (err) {
-                if (err) throw err;
-                console.log(employees);
-                console.log('Your html file has been generated');
-            });  
+.then(function(result) {
+    employees.push(result);
+    console.log(employees);
+    //render(employees);
+    fs.writeFile(outputPath, employees , function (err) {
+            if (err) throw err;
+             console.log('Your html file has been generated');
+        });  
+    
+            
     });
+    
+    
+    
+  
+    
+    
+
+//  });
+    // .then(fs.writeFile(outputPath, html , function (err) {
+    //         if (err) throw err;
+    //         console.log(employees);
+    //         console.log('Your html file has been generated');
+    //     }));  
+
       
 
 
